@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>اذكار المسلم</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html{
+        overflow-x: hidden;
+        /* overflow-y: hidden; */
+      }
+      .options {
+        width: 47%;
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        text-align: center;
+        font-size: xx-large;
+        justify-content: center;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        height: 33%;
+        margin: 0.2em;
+        cursor: pointer;
+      }
+      #thikr {
+        display: none;
+        flex-direction: column;
+        min-height: 80%;
+        justify-content: space-between;
+      }
+      p {
+        color: var(--backgro);
+      }
+      .textbox {
+        max-width: 70%;
+        min-width: 40%;
+        min-height: 5em;
+        border: 3px solid var(--border);
+        border-radius: 5px;
+        margin: auto;
+        text-align: center;
+        padding: 2em;
+        margin-bottom: 1em;
+      }
+      #incrementBtn {
+        border: 2px solid var(--border);
+        width: 2em;
+        margin: auto;
+        text-align: center;
+        border-radius: 5px;
+        padding: 0.5em;
+        font-size: 3rem;
+        user-select: none;
+        cursor: pointer;
+      }
+      .count {
+        margin-top: 0.5em;
+        font-size: 2rem;
+        opacity: 1;
+        transition: all 250ms;
+      }
+      .content {
+        font-size: 2rem;
+        opacity: 1;
+        transition: all 250ms;
+      }
+      .fade {
+        opacity: 0;
+      }
+      #back {
+        /* padding-top: 2em; */
+        height: 33em;
+      }
+      #exit {
+        text-align: center;
+        padding: 0.5em;
+        border: 2px solid var(--border);
+        border-radius: 5px;
+        max-width: 20vw;
+        margin: auto;
+        font-size: 2rem;
+        /* min-height: 10vh;
+        max-height: 20vh; */
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-weight: bolder;
+      }
+      #container{
+        display: flex;
+        /* position: absolute; */
+        bottom: 0px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+    <div id="back">
+      <div id="main"></div>
+      <div id="thikr">
+        <div class="textbox">
+          <div class="content">hi</div>
+          <div class="count">1</div>
+        </div>
+        <div id="container">
+          <div id="exit">الصفحة الرئيسية</div>
+          <div id="incrementBtn">0</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const res = await fetch("./adkar.json");
+      const data = await res.json();
+      const categories = Object.keys(data);
+
+      let exit = document.querySelector("#exit");
+      let content = document.querySelector(".content");
+      let count = document.querySelector(".count");
+      let incrementBtn = document.querySelector("#incrementBtn");
+      let thikrElement = document.querySelector("#thikr");
+      let main = document.querySelector("#main");
+      let currentData;
+      let index = 0;
+      let currentThikr;
+
+      categories.forEach((category) => {
+        const categoryElement = document.createElement("div");
+        categoryElement.classList.add("options");
+        categoryElement.textContent = category;
+        categoryElement.addEventListener("click", () => {
+          index = 0;
+          currentData = data[category];
+          main.style.display = "none";
+          thikrElement.style.display = "flex";
+          currentThikr = currentData[index];
+          content.innerHTML = currentThikr.content;
+          count.innerHTML = currentThikr.count;
+        });
+        main.appendChild(categoryElement);
+      });
+
+      function goToMain() {
+        currentData = undefined;
+        index = 0;
+        currentThikr = undefined;
+        incrementBtn.innerText = 0;
+        main.style.display = "block";
+        thikrElement.style.display = "none";
+      }
+
+      function increment() {
+        incrementBtn.innerText = Number(incrementBtn.innerText) + 1;
+        if (index >= currentData.length - 1) {
+          // finished current data
+          goToMain();
+          navigator.vibrate(500);
+        } else if (Number(incrementBtn.innerText) >= currentThikr.count) {
+          // go to next thikr
+          index++;
+          currentThikr = currentData[index];
+          content.classList.add("fade");
+          count.classList.add("fade");
+          setTimeout(() => {
+            content.innerHTML = currentThikr.content;
+            count.innerHTML = currentThikr.count;
+            content.classList.remove("fade");
+            count.classList.remove("fade");
+          }, 500);
+          incrementBtn.innerText = 0;
+          navigator.vibrate(300);
+        } else {
+          navigator.vibrate(100);
+        }
+      }
+      exit.addEventListener("click", () => {
+        main.style.display = "flex";
+        thikrElement.style.display = "none";
+      });
+      incrementBtn.addEventListener("click", increment);
+    </script>
+    <script src="../script.js"></script>
+  </body>
+</html>

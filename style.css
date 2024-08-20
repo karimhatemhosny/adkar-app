@@ -1,0 +1,100 @@
+:root {
+    --header: rgb(190, 190, 190);
+    --background: white;
+    --border: black;
+    --html: black;
+}
+:root.dark{
+    --header: rgb(77, 77, 77);
+    --background: rgb(40, 40, 40);
+    --border: white;
+    --html: white;
+}
+
+.dark .logo-light {
+    display: none;
+}
+.dark .logo-dark{
+    display: block;
+}
+.logo-dark {
+    display: none;
+}
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--html);
+    padding-top: 80px;
+    color: var(--border);
+}
+#back {
+    background-color: var(--background);
+    border-radius: 3px;
+    max-height: 90vh;
+    width: 95vw;
+}
+#main {
+    display: flex;
+    flex-wrap: wrap;
+    width: 95vw;
+    margin: auto
+    
+}
+.sections{
+    width: 30.39%;
+    border: 1px solid var(--border) ;
+    border-radius: 3px;
+    text-align: center;
+    font-size: xx-large;
+    justify-content: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    height: 33%;
+    margin: 0.2em;
+    background-color: var()
+}
+header {
+    width: 90vw;
+    height: 50px;
+    background-color: var(--header);
+    position: fixed;
+    top: 0px;
+    padding: 0.7em;
+    border-radius: 10px;
+    margin: auto;
+    border: 3px solid var(--border)
+}
+#lightRadio {
+    margin: auto;
+    width: 2em;
+    height: 2em;
+    border: 5px solid black;
+    border-radius: 50%;
+    background-color:white;
+    cursor: pointer;
+    top: 0.7em;
+    right: 0.2em;
+}
+#darkRadio {
+    width: 2em;
+    height: 2em;
+    border: 5px solid black;
+    border-radius: 50%;
+    background-color:rgb(103, 103, 103);    
+    cursor: pointer;
+    top: 0.7em;
+    right: 3em;
+}
+a {
+    text-decoration: none;
+    color: var(--border);
+}
+svg {
+    position: absolute;
+    top: 0;
+    height: 5em;
+    width: 3em;
+}
+header label{
+    display: block;
+    position: absolute;
+}
